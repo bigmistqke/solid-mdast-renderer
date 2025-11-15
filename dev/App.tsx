@@ -1,8 +1,9 @@
 import type { Component } from 'solid-js'
-import { AutoTestViewer } from './AutoTestViewer'
+import { MDRenderer } from '../src'
 
 const App: Component = () => {
-  return <AutoTestViewer />
+  // return <AutoTestViewer />
+  return <MDRenderer content="# hallo world" />
 }
 
 export default App

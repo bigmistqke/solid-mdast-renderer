@@ -7,3 +7,4 @@
 3. **Introspection through specific tests** - If you need introspection, craft a specific test for it and add debug calls in `src/index.tsx`, do not remove these afterwards
 4. **Never use console.log directly** - Always use the debug utility (`createDebug`) instead of direct console.log calls
 5. **Use <Show/> for control flow** - Use SolidJS `<Show/>` component instead of ternary operators for conditional rendering
+6. **Always use pnpm** - Use `pnpm` instead of `npm` for all package management commands

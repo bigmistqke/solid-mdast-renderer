@@ -38,5 +38,11 @@ export default defineConfig(config => {
     preset.writePackageJson(package_fields)
   }
 
-  return preset.generateTsupOptions(parsed_options)
+  const tsupOptions = preset.generateTsupOptions(parsed_options)
+  
+  // Mark solid-js as external to prevent bundling
+  return tsupOptions.map(option => ({
+    ...option,
+    external: [...(option.external || []), 'solid-js']
+  }))
 })

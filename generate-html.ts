@@ -1,12 +1,11 @@
 #!/usr/bin/env tsx
 
+import { render } from '@solidjs/testing-library'
 import { writeFileSync } from 'fs'
 import { dirname, join } from 'path'
 import { fileURLToPath } from 'url'
-import { MDRenderer } from './dist/index.mjs'
+import { MDRenderer } from './src'
 import { testSpec, type TestCase } from './test/testSpec.ts'
-// Import render from solid-js/web for DOM rendering
-import { renderToString } from 'solid-js/web'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -20,20 +19,17 @@ let errorCount = 0
 
 for (const [testName, testCase] of Object.entries(testSpec)) {
   try {
-    // Use DOM rendering approach since renderToString isn't working with our component
-    const tempDiv = global.document.createElement('div')
-    global.document.body.appendChild(tempDiv)
-
-    const html = renderToString(() => MDRenderer({ content: testCase.markdown }))
+    const { asFragment } = render(() => MDRenderer({ content: testCase.markdown }))
 
     updatedTestSpec[testName] = {
       markdown: testCase.markdown,
-      html: html,
+      html: asFragment(),
     }
     console.log(`✓ Generated HTML for: ${testName}`)
     successCount++
   } catch (error) {
     console.error(`✗ Failed to generate HTML for ${testName}:`, (error as Error).message)
+
     updatedTestSpec[testName] = {
       markdown: testCase.markdown,
       html: `Error: ${(error as Error).message}`,
@@ -69,6 +65,7 @@ ${Object.entries(updatedTestSpec)
 `
 
 // Write the updated file
+
 const testSpecPath = join(__dirname, 'test', 'testSpec.ts')
 writeFileSync(testSpecPath, newTestSpecContent)
 

@@ -276,7 +276,7 @@ export const DefaultNodeRenderers: Record<string, Component<MDNodeRendererProps>
   // Plain text content
   Text: props => {
     const container = useContext(ContainerContext)
-    
+
     // Filter out whitespace-only text nodes in blockquotes to prevent unwanted spacing
     return (
       <Show when={!(container === 'Blockquote' && /^\s*$/.test(props.node.content))} fallback="">
@@ -581,6 +581,8 @@ export function MDRenderer(props: MDRendererProps) {
     const tree = parser.parse(props.content)
     return parseMarkdownTree(tree.topNode, props.content)
   })
+
+  debug('MDRenderer mount!', props)
 
   return (
     <MDRendererContext.Provider value={props}>
