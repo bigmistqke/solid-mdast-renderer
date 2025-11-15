@@ -35,15 +35,19 @@ interface MDNodeRendererProps {
 function parseMarkdownTree(node: SyntaxNode, input: string): MDNode {
   const children: MDNode[] = []
   let child = node.firstChild
-  
-  debug(`Parsing node: ${node.name} (${node.from}-${node.to}): "${input.slice(node.from, node.to)}"`)
-  
+
+  debug(
+    `Parsing node: ${node.name} (${node.from}-${node.to}): "${input.slice(node.from, node.to)}"`,
+  )
+
   // Log all children for emphasis nodes
   if (node.name === 'StrongEmphasis' || node.name === 'Emphasis') {
     let temp = child
     const childrenInfo = []
     while (temp) {
-      childrenInfo.push(`${temp.name} (${temp.from}-${temp.to}): "${input.slice(temp.from, temp.to)}"`)
+      childrenInfo.push(
+        `${temp.name} (${temp.from}-${temp.to}): "${input.slice(temp.from, temp.to)}"`,
+      )
       temp = temp.nextSibling
     }
     debug(`  Children of ${node.name}:`, childrenInfo)
@@ -156,9 +160,12 @@ function extractLinkUrl(node: MDNode): string {
 
 function extractImageAlt(node: MDNode): string {
   if (node.type === 'Image') {
-    debug('extractImageAlt - Image node children:', node.children.map(c => ({ type: c.type, content: c.content })))
+    debug(
+      'extractImageAlt - Image node children:',
+      node.children.map(c => ({ type: c.type, content: c.content })),
+    )
   }
-  
+
   // For images like ![Alt text](url), the alt text is between the first and second LinkMark
   // We need to extract it manually from the content
   const content = node.content
@@ -515,7 +522,7 @@ export const DefaultNodeRenderers: Record<string, Component<MDNodeRendererProps>
 function DefaultNode(props: { node: MDNode }): any {
   const context = useContext(MDRendererContext)
   debug('DefaultNode processing:', { type: props.node.type, content: props.node.content })
-  
+
   return (
     <Show
       when={context?.renderers?.[props.node.type] ?? DefaultNodeRenderers[props.node.type]}
@@ -535,9 +542,7 @@ export function MDRenderer(props: MDRendererProps) {
 
   return (
     <MDRendererContext.Provider value={props}>
-      <span class="markdown-content" style={{ display: 'contents' }}>
-        <DefaultNode node={node()} />
-      </span>
+      <DefaultNode node={node()} />
     </MDRendererContext.Provider>
   )
 }
