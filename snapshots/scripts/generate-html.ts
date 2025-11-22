@@ -5,31 +5,32 @@ import { dirname, join } from 'path'
 import * as prettier from 'prettier'
 import { NoHydration, renderToString } from 'solid-js/web'
 import { fileURLToPath } from 'url'
-import { MdastRenderer } from '../dist/index.js'
-import { createDebug } from '../src/utils.ts'
-import spec from '../test/spec.ts'
+import { MdastRenderer } from '../../dist/index.js'
+import { createDebug } from '../../src/utils.ts'
+import { extensions, mdastExtensions } from "../extensions.ts"
+import snapshots from '../index.ts'
 
 const debug = createDebug('MdastRenderer/generate-html', true)
 
-const specPath = join(dirname(fileURLToPath(import.meta.url)), '..', 'test', 'spec.ts')
+const specPath = join(dirname(fileURLToPath(import.meta.url)), '..', 'spec.ts')
 
 debug('Generating HTML for all test cases...')
 
 const serializedSpec = Object.fromEntries(
-  Object.entries(spec).map(([key, testCase]) => {
+  Object.entries(snapshots).map(([key, testCase]) => {
     if ('manual' in testCase) {
       return [key, testCase] as const
     }
 
-    const snapshot = renderToString(() =>
-      NoHydration({ get children() { return MdastRenderer({ content: testCase.input }) } }),
+    const output = renderToString(() =>
+      NoHydration({ get children() { return MdastRenderer({ content: testCase.input, extensions: testCase.extensions?.map(key => extensions[key]()), mdastExtensions: testCase.mdastExtensions?.map(key => mdastExtensions[key]()) }) } }),
     ).replaceAll('<!--!$-->', '')
 
     return [
       key,
       {
-        input: testCase.input,
-        snapshot,
+        ...testCase,
+        output,
       },
     ] as const
   }),
@@ -44,7 +45,7 @@ const formattedspec = await prettier.format(
 
 import type { Spec } from "./types.ts"
 
-export default ${JSON.stringify(serializedSpec, null, 2)} satisfies Spec
+export default ${JSON.stringify(serializedSpec, null, 2)} as Spec
 `,
   { parser: 'typescript' },
 )

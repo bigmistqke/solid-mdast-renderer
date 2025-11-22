@@ -36,7 +36,7 @@
     "test": "concurrently pnpm:test:*",
     "test:client": "vitest",
     "test:ssr": "pnpm run test:client --mode ssr",
-    "test:update": "pnpm build && node scripts/generate-html.ts && node scripts/generate-tests.ts",
+    "test:update": "pnpm build && node snapshots/scripts/generate-html.ts && node snapshots/scripts/generate-tests.ts",
     "prepublishOnly": "pnpm build",
     "format": "prettier --ignore-path .gitignore -w \"src/**/*.{js,ts,json,css,tsx,jsx}\" \"dev/**/*.{js,ts,json,css,tsx,jsx}\"",
     "lint": "concurrently pnpm:lint:*",
@@ -44,12 +44,20 @@
     "lint:types": "tsc --noEmit",
     "update-deps": "pnpm up -Li"
   },
+  "dependencies": {
+    "@types/mdast": "^4.0.4",
+    "mdast-util-from-markdown": "^2.0.2",
+    "mdast-util-gfm-table": "^2.0.0",
+    "micromark-extension-gfm-table": "^2.1.1",
+    "micromark-util-types": "^2.0.2"
+  },
   "peerDependencies": {
     "solid-js": "^1.6.0"
   },
   "devDependencies": {
     "@solidjs/router": "^0.15.4",
     "@solidjs/testing-library": "^0.8.10",
+    "@types/jsdom": "^27.0.0",
     "@types/node": "^20.12.12",
     "@typescript-eslint/eslint-plugin": "^7.9.0",
     "@typescript-eslint/parser": "^7.9.0",
@@ -60,6 +68,8 @@
     "eslint-plugin-eslint-comments": "^3.2.0",
     "eslint-plugin-no-only-tests": "^3.1.0",
     "jsdom": "^24.0.0",
+    "mdast-util-gfm": "^3.1.0",
+    "micromark-extension-gfm": "^3.0.0",
     "prettier": "3.0.0",
     "solid-js": "^1.8.17",
     "tsup": "^8.0.2",
@@ -78,16 +88,5 @@
   "engines": {
     "node": ">=18",
     "pnpm": ">=9.0.0"
-  },
-  "dependencies": {
-    "@lezer/common": "^1.3.0",
-    "@lezer/highlight": "^1.2.3",
-    "@lezer/markdown": "^1.6.0",
-    "@types/jsdom": "^27.0.0",
-    "@types/mdast": "^4.0.4",
-    "mdast-util-from-markdown": "^2.0.2",
-    "mdast-util-gfm-table": "^2.0.0",
-    "micromark-extension-gfm-table": "^2.1.1",
-    "parse5": "^8.0.0"
   }
 }

@@ -24,11 +24,9 @@ export default defineConfig({
     },
     rollupOptions: {
       external: [
-        'solid-js', 
+        'solid-js',
         'solid-js/web',
         'mdast-util-from-markdown',
-        'mdast-util-gfm-table', 
-        'micromark-extension-gfm-table'
       ],
       output: {
         globals: {

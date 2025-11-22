@@ -6,31 +6,22 @@
 
 [![pnpm](https://img.shields.io/badge/maintained%20with-pnpm-cc00ff.svg?style=for-the-badge&logo=pnpm)](https://pnpm.io/)
 
-lezer based markdown renderer
-
-> **Note** After using this template, you have to search and replace all `solid-mdast-markdown` and similar strings
-> with appropriate texts.
->
-> `solid-mdast-markdown` should be a **kebab-case** string representing the name of you monorepo.
->
-> `lezer based markdown renderer` should be a **Normal case** string with the description of the repository.
->
-> `bigmistqke` should be a **kebab-case** string from your profile URL.
+mdast based markdown renderer
 
 ## Quick start
 
 Install it:
 
 ```bash
-npm i solid-mdast-markdown
+npm i @bigmistqke/solid-mdast-markdown
 # or
-yarn add solid-mdast-markdown
+yarn add @bigmistqke/solid-mdast-markdown
 # or
-pnpm add solid-mdast-markdown
+pnpm add @bigmistqke/solid-mdast-markdown
 ```
 
 Use it:
 
 ```tsx
-import solid-mdast-markdown from 'solid-mdast-markdown'
+import solid-mdast-markdown from '@bigmistqke/solid-mdast-markdown'
 ```

@@ -1,18 +1,15 @@
 import { useSearchParams } from '@solidjs/router'
 import { createMemo, createSelector, createSignal, For, onMount, Show } from 'solid-js'
 import { createStore } from 'solid-js/store'
+import spec from '../snapshots'
+import { extensions, mdastExtensions } from '../snapshots/extensions'
+import { TestCase } from '../snapshots/types'
 import { MdastRenderer } from '../src'
 import { compareNodes } from '../src/utils'
-import spec from '../test/spec'
 import styles from './TestViewer.module.css'
 
-interface TestProps {
+interface TestProps extends TestCase {
   title: string
-  input: string
-  // currentOutput: string
-  snapshot: string
-  // success: boolean
-  // error?: string
   onResult(result: { success: boolean; error?: string }): void
 }
 
@@ -32,7 +29,7 @@ function Test(props: TestProps) {
       // Compare actual vs expected
       compareNodes(
         parser.parseFromString(element.innerHTML, 'text/html').querySelector('body')!,
-        parser.parseFromString(props.snapshot, 'text/html').querySelector('body')!,
+        parser.parseFromString(props.output, 'text/html').querySelector('body')!,
       )
 
       setResult({ success: true })
@@ -145,7 +142,11 @@ function Test(props: TestProps) {
           <div>
             <div class={styles.subtitle}>Rendered:</div>
             <div ref={element!} class={styles.container}>
-              <MdastRenderer content={props.input} />
+              <MdastRenderer
+                content={props.input}
+                extensions={props.extensions?.map(key => extensions[key]())}
+                mdastExtensions={props.mdastExtensions?.map(key => mdastExtensions[key]())}
+              />
             </div>
           </div>
         </div>
@@ -175,7 +176,7 @@ function Test(props: TestProps) {
                 overflow: 'auto',
               }}
             >
-              {props.snapshot}
+              {props.output}
             </pre>
           </div>
 
@@ -184,9 +185,9 @@ function Test(props: TestProps) {
             <div class={styles.subtitle}>Rendered:</div>
             <div
               class={styles.container}
-              innerHTML={props.snapshot !== 'No snapshot found' ? props.snapshot : ''}
+              innerHTML={props.output !== 'No snapshot found' ? props.output : ''}
             ></div>
-            <Show when={props.snapshot === 'No snapshot found'}>
+            <Show when={props.output === 'No snapshot found'}>
               <div style={{ color: '#999', 'font-style': 'italic', 'text-align': 'center' }}>
                 No snapshot found
               </div>
@@ -262,7 +263,7 @@ export function TestViewer() {
         margin: '0 auto',
       }}
     >
-      <h1>Solid Lezer Markdown Test Viewer</h1>
+      <h1>Solid Mdast Markdown Test Viewer</h1>
 
       <div
         style={{
@@ -282,15 +283,10 @@ export function TestViewer() {
 
       <div style={{ display: 'grid', gap: '20px' }}>
         <For each={Object.entries(spec)}>
-          {([title, { input, snapshot }]) => {
+          {([title, props]) => {
             return (
               <Show when={selected(title)}>
-                <Test
-                  title={title}
-                  input={input}
-                  snapshot={snapshot}
-                  onResult={result => setResults(title, result)}
-                />
+                <Test {...props} title={title} onResult={result => setResults(title, result)} />
               </Show>
             )
           }}

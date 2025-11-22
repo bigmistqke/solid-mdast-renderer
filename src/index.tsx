@@ -1,41 +1,45 @@
-import type { Root, RootContent, RootContentMap } from 'mdast'
-import { fromMarkdown } from 'mdast-util-from-markdown'
-import { gfmTableFromMarkdown } from 'mdast-util-gfm-table'
-import { gfmTable } from 'micromark-extension-gfm-table'
+import type { Node, RootContentMap } from 'mdast'
+import { fromMarkdown, type Extension as MdastExtension } from 'mdast-util-from-markdown'
+import * as gfm from 'mdast-util-gfm'
+import type { Extension } from 'micromark-util-types'
 import {
-  type Component,
   createContext,
   createEffect,
   createMemo,
   For,
   Show,
   useContext,
+  type Component,
 } from 'solid-js'
 import { Dynamic } from 'solid-js/web'
 import { createDebug } from './utils'
 
-const debug = createDebug('MDRenderer', false)
+gfm.gfmToMarkdown
+
+const debug = createDebug('MdastRenderer', false)
 
 // Use parser with table and strikethrough support
-const MdastRendererPropsContext = createContext<MDRendererProps>()
-const NodeStackContext = createContext<Array<Root | RootContent>>([])
+const MdastRendererPropsContext = createContext<MdastRendererProps>()
+const NodeStackContext = createContext<Array<Node>>([])
 const TableCellContext = createContext<'head' | 'body'>()
 
 function useNodeStack() {
-  return useContext(NodeStackContext) as [Root | RootContent, ...Array<Root | RootContent>]
+  return useContext(NodeStackContext) as [Node, ...Array<Node>]
 }
 
-function useMDRendererProps() {
+function useMdastRendererProps() {
   const context = useContext(MdastRendererPropsContext)
   if (!context) {
-    throw new Error('Use useMDRendererProps in a descendant of MDRenderer')
+    throw new Error('Use useMdastRendererProps in a descendant of MdastRenderer')
   }
   return context
 }
 
-interface MDRendererProps {
+interface MdastRendererProps {
   content: string
   renderers?: Partial<typeof DefaultNodeRenderers>
+  extensions?: Array<Extension>
+  mdastExtensions?: Array<MdastExtension | Array<MdastExtension>>
 }
 
 export interface MDNode {
@@ -52,24 +56,24 @@ export interface MDNode {
 /*                                                                                */
 /**********************************************************************************/
 
-const NOOP = () => ''
-
-export const Prefixes: Record<string, string> = {
-  ListItem: '   ',
-  Blockquote: '> ',
+const NOT_IMPLEMENTED_YET = (props: { node: Node }) => {
+  throw new Error(`Did not implement node type yet: ${props.node.type}`)
+  return null!
 }
 
 export const DefaultNodeRenderers: {
-  [TKey in keyof RootContentMap]: Component<{ node: RootContentMap[TKey] }>
+  [TKey in keyof RootContentMap]: Component<{
+    node: TKey extends keyof RootContentMap ? RootContentMap[TKey] : unknown
+  }>
 } = {
   // [link]: url "title" (link reference definition)
-  linkReference: NOOP,
-  definition: NOOP,
-  delete: NOOP,
-  footnoteDefinition: NOOP,
-  footnoteReference: NOOP,
-  imageReference: NOOP,
-  yaml: NOOP,
+  linkReference: NOT_IMPLEMENTED_YET,
+  definition: NOT_IMPLEMENTED_YET,
+
+  footnoteDefinition: NOT_IMPLEMENTED_YET,
+  footnoteReference: NOT_IMPLEMENTED_YET,
+  imageReference: NOT_IMPLEMENTED_YET,
+  yaml: NOT_IMPLEMENTED_YET,
 
   // > blockquote
   blockquote(props) {
@@ -87,7 +91,19 @@ export const DefaultNodeRenderers: {
 
   // Indented code block (4+ spaces)
   code(props) {
-    return <code>{props.node.value}</code>
+    return (
+      <pre>
+        <code>{props.node.value}</code>
+      </pre>
+    )
+  },
+
+  delete(props) {
+    return (
+      <del>
+        <DefaultChildren node={props.node} />
+      </del>
+    )
   },
 
   // *italic* or _italic_
@@ -119,18 +135,7 @@ export const DefaultNodeRenderers: {
 
   // `inline code`
   inlineCode(props) {
-    return (
-      <code
-        style={{
-          'background-color': 'var(--cm-editor-background, rgba(128, 128, 128, 0.1))',
-          padding: '2px 4px',
-          'border-radius': '3px',
-          'font-family': 'monospace',
-        }}
-      >
-        {props.node.value}
-      </code>
-    )
+    return <code>{props.node.value}</code>
   },
 
   // [link text](url) or [link text](url "title")
@@ -231,24 +236,28 @@ export const DefaultNodeRenderers: {
   },
 }
 
-function DefaultChildren(props: { node: RootContent }) {
+function DefaultChildren(props: { node: Node }) {
   return (
-    <For each={'children' in props.node ? props.node.children : []}>
+    <For
+      each={
+        'children' in props.node && Array.isArray(props.node.children) ? props.node.children : []
+      }
+    >
       {node => <DefaultNode node={node} />}
     </For>
   )
 }
 
-function DefaultNode(props: { node: RootContent }): any {
-  const mdRendererProps = useMDRendererProps()
+function DefaultNode(props: { node: Node }): any {
+  const mdastRendererProps = useMdastRendererProps()
   debug('DefaultNode processing:', props.node)
 
   const Comp = () =>
-    mdRendererProps.renderers?.[props.node.type] ?? DefaultNodeRenderers[props.node.type]
+    // @ts-expect-error
+    mdastRendererProps.renderers?.[props.node.type] ?? DefaultNodeRenderers[props.node.type]
 
   createEffect(() => {
-    const _value = Comp()
-    if (!_value) {
+    if (!Comp()) {
       throw new Error(`No Renderer For ${props.node.type}`)
     }
   })
@@ -256,24 +265,23 @@ function DefaultNode(props: { node: RootContent }): any {
   return (
     <NodeStackContext.Provider value={[props.node, ...useNodeStack()]}>
       <Show when={Comp()} keyed>
-        {/* @ts-expect-error */}
         {Comp => <Comp node={props.node} />}
       </Show>
     </NodeStackContext.Provider>
   )
 }
 
-export function MdastRenderer(props: MDRendererProps) {
+export function MdastRenderer(props: MdastRendererProps) {
   const root = createMemo(() =>
     fromMarkdown(props.content, {
-      extensions: [gfmTable()],
-      mdastExtensions: [gfmTableFromMarkdown()],
+      extensions: props.extensions,
+      mdastExtensions: props.mdastExtensions,
     }),
   )
 
   return (
     <MdastRendererPropsContext.Provider value={props}>
-      <For each={root().children}>{child => <DefaultNode node={child} />}</For>
+      <DefaultChildren node={root()} />
     </MdastRendererPropsContext.Provider>
   )
 }
