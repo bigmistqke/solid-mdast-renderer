@@ -150,7 +150,7 @@ function Test(props: TestProps) {
           </Show>
         </div>
 
-        {/* B: Actual Result (CSR Rendered) */}
+        {/* B: CSR Markdown */}
         <div
           style={{
             padding: '16px',
@@ -192,7 +192,7 @@ function Test(props: TestProps) {
           </div>
         </div>
 
-        {/* C: Expected (SSR Snapshot) */}
+        {/* C: SSR Snapshot */}
         <div
           style={{
             padding: '16px',
