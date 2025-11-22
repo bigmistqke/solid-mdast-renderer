@@ -5,56 +5,72 @@
 
 import { describe, it, expect } from "vitest";
 import { render } from "@solidjs/testing-library";
-import { setup } from "./setup.ts";
-import { Markdown } from "../src/index.ts";
-import { extensions, mdastExtensions } from "../snapshots/extensions.ts";
+import { setup } from "./setup";
+import { Markdown } from "../src/index";
+import { extensions, mdastExtensions } from "../snapshots/extensions";
 
 setup();
 
 describe("Markdown", () => {
   it("renders heading 1 with 1 asterisk prefix", () => {
     const { asFragment } = render(() => <Markdown markdown={"# Heading 1"} />);
-    expect(asFragment()).toRenderEqual("<h1 >Heading 1</h1>");
+    expect(asFragment()).toRenderEqual(
+      '<h1 data-hk="0-0-0-0-0-0-0-0-0" >Heading 1</h1>',
+    );
   });
   it("renders heading 2 with 2 asterisks prefix", () => {
     const { asFragment } = render(() => <Markdown markdown={"## Heading 2"} />);
-    expect(asFragment()).toRenderEqual("<h2 >Heading 2</h2>");
+    expect(asFragment()).toRenderEqual(
+      '<h2 data-hk="0-0-0-0-0-0-0-0-0" >Heading 2</h2>',
+    );
   });
   it("renders heading 3 with 3 asterisks prefix", () => {
     const { asFragment } = render(() => (
       <Markdown markdown={"### Heading 3"} />
     ));
-    expect(asFragment()).toRenderEqual("<h3 >Heading 3</h3>");
+    expect(asFragment()).toRenderEqual(
+      '<h3 data-hk="0-0-0-0-0-0-0-0-0" >Heading 3</h3>',
+    );
   });
   it("renders heading 4 with 4 asterisks prefix", () => {
     const { asFragment } = render(() => (
       <Markdown markdown={"#### Heading 4"} />
     ));
-    expect(asFragment()).toRenderEqual("<h4 >Heading 4</h4>");
+    expect(asFragment()).toRenderEqual(
+      '<h4 data-hk="0-0-0-0-0-0-0-0-0" >Heading 4</h4>',
+    );
   });
   it("renders heading 5 with 5 asterisks prefix", () => {
     const { asFragment } = render(() => (
       <Markdown markdown={"##### Heading 5"} />
     ));
-    expect(asFragment()).toRenderEqual("<h5 >Heading 5</h5>");
+    expect(asFragment()).toRenderEqual(
+      '<h5 data-hk="0-0-0-0-0-0-0-0-0" >Heading 5</h5>',
+    );
   });
   it("renders heading 6 with 6 asterisks prefix", () => {
     const { asFragment } = render(() => (
       <Markdown markdown={"###### Heading 6"} />
     ));
-    expect(asFragment()).toRenderEqual("<h6 >Heading 6</h6>");
+    expect(asFragment()).toRenderEqual(
+      '<h6 data-hk="0-0-0-0-0-0-0-0-0" >Heading 6</h6>',
+    );
   });
   it("renders heading 1 with = underline", () => {
     const { asFragment } = render(() => (
       <Markdown markdown={"Heading 1\n========="} />
     ));
-    expect(asFragment()).toRenderEqual("<h1 >Heading 1</h1>");
+    expect(asFragment()).toRenderEqual(
+      '<h1 data-hk="0-0-0-0-0-0-0-0-0" >Heading 1</h1>',
+    );
   });
   it("renders heading 2 with - underline", () => {
     const { asFragment } = render(() => (
       <Markdown markdown={"Heading 2\n---------"} />
     ));
-    expect(asFragment()).toRenderEqual("<h2 >Heading 2</h2>");
+    expect(asFragment()).toRenderEqual(
+      '<h2 data-hk="0-0-0-0-0-0-0-0-0" >Heading 2</h2>',
+    );
   });
   it("renders a simple paragraph", () => {
     const { asFragment } = render(() => (
@@ -99,7 +115,7 @@ describe("Markdown", () => {
       <Markdown markdown={"- Item 1\n- Item 2\n- Item 3"} />
     ));
     expect(asFragment()).toRenderEqual(
-      "<ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul>",
+      '<ul data-hk="0-0-0-0-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul>',
     );
   });
   it("renders bullet list with asterisks", () => {
@@ -107,7 +123,7 @@ describe("Markdown", () => {
       <Markdown markdown={"* Item 1\n* Item 2\n* Item 3"} />
     ));
     expect(asFragment()).toRenderEqual(
-      "<ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul>",
+      '<ul data-hk="0-0-0-0-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul>',
     );
   });
   it("renders bullet list with plus signs", () => {
@@ -115,7 +131,7 @@ describe("Markdown", () => {
       <Markdown markdown={"+ Item 1\n+ Item 2\n+ Item 3"} />
     ));
     expect(asFragment()).toRenderEqual(
-      "<ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul>",
+      '<ul data-hk="0-0-0-0-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul>',
     );
   });
   it("renders ordered list", () => {
@@ -123,7 +139,7 @@ describe("Markdown", () => {
       <Markdown markdown={"1. First item\n2. Second item\n3. Third item"} />
     ));
     expect(asFragment()).toRenderEqual(
-      "<ol ><li>First item</li><li>Second item</li><li>Third item</li></ol>",
+      '<ol data-hk="0-0-0-0-0-0-0-0-0" ><li>First item</li><li>Second item</li><li>Third item</li></ol>',
     );
   });
   it("renders ordered list with different starting numbers", () => {
@@ -131,7 +147,7 @@ describe("Markdown", () => {
       <Markdown markdown={"5. Fifth item\n6. Sixth item\n7. Seventh item"} />
     ));
     expect(asFragment()).toRenderEqual(
-      "<ol ><li>Fifth item</li><li>Sixth item</li><li>Seventh item</li></ol>",
+      '<ol data-hk="0-0-0-0-0-0-0-0-0" ><li>Fifth item</li><li>Sixth item</li><li>Seventh item</li></ol>',
     );
   });
   it("renders inline code", () => {
@@ -261,7 +277,7 @@ describe("Markdown", () => {
       />
     ));
     expect(asFragment()).toRenderEqual(
-      "<blockquote><p>This blockquote contains a list:</p><ol ><li>First item</li><li>Second item</li><li>Third item</li></ol></blockquote>",
+      '<blockquote><p>This blockquote contains a list:</p><ol data-hk="0-0-0-0-0-0-0-0-0-1-0-0-0-0-0" ><li>First item</li><li>Second item</li><li>Third item</li></ol></blockquote>',
     );
   });
   it("renders horizontal rule with dashes", () => {
@@ -321,7 +337,7 @@ describe("Markdown", () => {
       />
     ));
     expect(asFragment()).toRenderEqual(
-      '<h1 >Header</h1><p>This is a <strong>bold</strong> paragraph with <em>italic</em> text and <code>code</code>.</p><ul ><li>List item with <a href="https://example.com" target="_blank" rel="noopener noreferrer">link</a></li><li>Another item</li></ul><blockquote><p>Blockquote with <strong>emphasis</strong></p></blockquote>',
+      '<h1 data-hk="0-0-0-0-0-0-0-0-0" >Header</h1><p>This is a <strong>bold</strong> paragraph with <em>italic</em> text and <code>code</code>.</p><ul data-hk="0-0-0-2-0-0-0-0-0" ><li>List item with <a href="https://example.com" target="_blank" rel="noopener noreferrer">link</a></li><li>Another item</li></ul><blockquote><p>Blockquote with <strong>emphasis</strong></p></blockquote>',
     );
   });
   it("renders deeply nested unordered lists", () => {
@@ -331,7 +347,7 @@ describe("Markdown", () => {
       />
     ));
     expect(asFragment()).toRenderEqual(
-      "<ul ><li>Level 1<ul ><li>Level 2<ul ><li>Level 3<ul ><li>Level 4</li></ul></li></ul></li></ul></li></ul>",
+      '<ul data-hk="0-0-0-0-0-0-0-0-0" ><li>Level 1<ul data-hk="0-0-0-0-0-0-0-0-1-0-0-0-0-0-1-0-0-0-0-0-0" ><li>Level 2<ul data-hk="0-0-0-0-0-0-0-0-1-0-0-0-0-0-1-0-0-0-0-0-1-0-0-0-0-0-1-0-0-0-0-0-0" ><li>Level 3<ul data-hk="0-0-0-0-0-0-0-0-1-0-0-0-0-0-1-0-0-0-0-0-1-0-0-0-0-0-1-0-0-0-0-0-1-0-0-0-0-0-1-0-0-0-0-0-0" ><li>Level 4</li></ul></li></ul></li></ul></li></ul>',
     );
   });
   it("renders mixed nested lists (ordered and unordered)", () => {
@@ -343,7 +359,7 @@ describe("Markdown", () => {
       />
     ));
     expect(asFragment()).toRenderEqual(
-      "<ol ><li>First ordered item<ul ><li>Nested unordered item</li><li>Another nested item</li></ul></li><li>Second ordered item<ol ><li>Nested ordered item</li><li>Another nested ordered item</li></ol></li></ol>",
+      '<ol data-hk="0-0-0-0-0-0-0-0-0" ><li>First ordered item<ul data-hk="0-0-0-0-0-0-0-0-1-0-0-0-0-0-1-0-0-0-0-0-0" ><li>Nested unordered item</li><li>Another nested item</li></ul></li><li>Second ordered item<ol data-hk="0-0-0-0-0-0-0-0-1-0-1-0-0-0-1-0-0-0-0-0-0" ><li>Nested ordered item</li><li>Another nested ordered item</li></ol></li></ol>',
     );
   });
   it("renders lists with multiple paragraphs in items", () => {
@@ -355,7 +371,7 @@ describe("Markdown", () => {
       />
     ));
     expect(asFragment()).toRenderEqual(
-      "<ol ><li><p>First item with multiple paragraphs.</p><p>This is the second paragraph of the first item.</p></li><li><p>Second item with code:</p><pre><code>console.log('Hello from list');</code></pre></li></ol>",
+      "<ol data-hk=\"0-0-0-0-0-0-0-0-0\" ><li><p>First item with multiple paragraphs.</p><p>This is the second paragraph of the first item.</p></li><li><p>Second item with code:</p><pre><code>console.log('Hello from list');</code></pre></li></ol>",
     );
   });
   it("renders bold within italic", () => {
@@ -403,7 +419,7 @@ describe("Markdown", () => {
       />
     ));
     expect(asFragment()).toRenderEqual(
-      '<ul ><li><a href="https://example.com" target="_blank" rel="noopener noreferrer">Link 1</a></li><li>Visit <a href="https://google.com" target="_blank" rel="noopener noreferrer">Google</a> for search</li><li>Multiple <a href="https://a.com" target="_blank" rel="noopener noreferrer">links</a> in <a href="https://b.com" target="_blank" rel="noopener noreferrer">one</a> item</li></ul>',
+      '<ul data-hk="0-0-0-0-0-0-0-0-0" ><li><a href="https://example.com" target="_blank" rel="noopener noreferrer">Link 1</a></li><li>Visit <a href="https://google.com" target="_blank" rel="noopener noreferrer">Google</a> for search</li><li>Multiple <a href="https://a.com" target="_blank" rel="noopener noreferrer">links</a> in <a href="https://b.com" target="_blank" rel="noopener noreferrer">one</a> item</li></ul>',
     );
   });
   it("renders code within links", () => {
@@ -433,7 +449,7 @@ describe("Markdown", () => {
       />
     ));
     expect(asFragment()).toRenderEqual(
-      "<ol ><li>Install dependencies:<pre><code>npm install</code></pre></li><li>Run the application:<pre><code>npm start</code></pre></li></ol>",
+      '<ol data-hk="0-0-0-0-0-0-0-0-0" ><li>Install dependencies:<pre><code>npm install</code></pre></li><li>Run the application:<pre><code>npm start</code></pre></li></ol>',
     );
   });
   it("renders code blocks in nested lists", () => {
@@ -445,7 +461,7 @@ describe("Markdown", () => {
       />
     ));
     expect(asFragment()).toRenderEqual(
-      "<ol ><li><p>Install dependencies:</p><pre><code>npm install</code></pre><ol ><li>Run the application:<pre><code>npm start</code></pre></li></ol></li></ol>",
+      '<ol data-hk="0-0-0-0-0-0-0-0-0" ><li><p>Install dependencies:</p><pre><code>npm install</code></pre><ol data-hk="0-0-0-0-0-0-0-0-1-0-0-0-0-0-1-1-0-0-0-0-0" ><li>Run the application:<pre><code>npm start</code></pre></li></ol></li></ol>',
     );
   });
   it("renders code blocks in blockquotes", () => {
@@ -469,7 +485,7 @@ describe("Markdown", () => {
       />
     ));
     expect(asFragment()).toRenderEqual(
-      '<h1 >Main Title</h1><p>This is a <strong>complex document</strong> with <em>various</em> elements.</p><h2 >Features</h2><ol ><li><strong>Lists</strong> with nested items:<ul ><li>Unordered nested list</li><li>Another item with <code>inline code</code></li></ul></li><li><strong>Code blocks</strong> with different languages:<pre><code>function example() {\n  return "Hello World";\n}</code></pre></li><li><strong>Tables</strong> with complex content</li></ol><h2 >Quotes and More</h2><blockquote><p>This is a blockquote with <strong>emphasis</strong> and a <a href="https://test.com" target="_blank" rel="noopener noreferrer">link</a>.</p><blockquote><p>Nested quote with <code>code</code></p></blockquote></blockquote><hr><h3 >Final Notes</h3><p>Check out this image: <img src="test.jpg" alt="Example"></p><p>And this autolink: <a href="https://automatic.link" target="_blank" rel="noopener noreferrer">https://automatic.link</a></p>',
+      '<h1 data-hk="0-0-0-0-0-0-0-0-0" >Main Title</h1><p>This is a <strong>complex document</strong> with <em>various</em> elements.</p><h2 data-hk="0-0-0-2-0-0-0-0-0" >Features</h2><ol data-hk="0-0-0-3-0-0-0-0-0" ><li><strong>Lists</strong> with nested items:<ul data-hk="0-0-0-3-0-0-0-0-1-0-0-0-0-0-1-0-0-0-0-0-0" ><li>Unordered nested list</li><li>Another item with <code>inline code</code></li></ul></li><li><strong>Code blocks</strong> with different languages:<pre><code>function example() {\n  return "Hello World";\n}</code></pre></li><li><strong>Tables</strong> with complex content</li></ol><h2 data-hk="0-0-0-4-0-0-0-0-0" >Quotes and More</h2><blockquote><p>This is a blockquote with <strong>emphasis</strong> and a <a href="https://test.com" target="_blank" rel="noopener noreferrer">link</a>.</p><blockquote><p>Nested quote with <code>code</code></p></blockquote></blockquote><hr><h3 data-hk="0-0-0-7-0-0-0-0-0" >Final Notes</h3><p>Check out this image: <img src="test.jpg" alt="Example"></p><p>And this autolink: <a href="https://automatic.link" target="_blank" rel="noopener noreferrer">https://automatic.link</a></p>',
     );
   });
   it("renders edge case with consecutive emphasis", () => {
@@ -503,7 +519,7 @@ describe("Markdown", () => {
       />
     ));
     expect(asFragment()).toRenderEqual(
-      '<h2 >Mixed Lists</h2><ol ><li>Ordered item one<ul ><li>Nested unordered</li><li>Another nested<ol ><li>Deep nested ordered</li><li>Another deep ordered</li></ol></li></ul></li><li>Ordered item two<blockquote><p>With a blockquote</p><p>And <strong>emphasis</strong></p></blockquote></li><li>Ordered item three with code:<pre><code>print("Hello from Python")</code></pre></li></ol>',
+      '<h2 data-hk="0-0-0-0-0-0-0-0-0" >Mixed Lists</h2><ol data-hk="0-0-0-1-0-0-0-0-0" ><li>Ordered item one<ul data-hk="0-0-0-1-0-0-0-0-1-0-0-0-0-0-1-0-0-0-0-0-0" ><li>Nested unordered</li><li>Another nested<ol data-hk="0-0-0-1-0-0-0-0-1-0-0-0-0-0-1-0-0-0-0-0-1-0-1-0-0-0-1-0-0-0-0-0-0" ><li>Deep nested ordered</li><li>Another deep ordered</li></ol></li></ul></li><li>Ordered item two<blockquote><p>With a blockquote</p><p>And <strong>emphasis</strong></p></blockquote></li><li>Ordered item three with code:<pre><code>print("Hello from Python")</code></pre></li></ol>',
     );
   });
   it("handles unbalanced emphasis markers", () => {
@@ -579,7 +595,7 @@ describe("Markdown", () => {
       />
     ));
     expect(asFragment()).toRenderEqual(
-      "<ul ><li>[x] Completed task</li><li>[ ] Incomplete task</li><li>[x] Another completed task</li></ul>",
+      '<ul data-hk="0-0-0-0-0-0-0-0-0" ><li>[x] Completed task</li><li>[ ] Incomplete task</li><li>[x] Another completed task</li></ul>',
     );
   });
   it("renders nested task lists", () => {
@@ -591,7 +607,7 @@ describe("Markdown", () => {
       />
     ));
     expect(asFragment()).toRenderEqual(
-      "<ul ><li>[x] Main task<ul ><li>[x] Subtask 1</li><li>[ ] Subtask 2<ul ><li>[x] Sub-subtask</li></ul></li></ul></li></ul>",
+      '<ul data-hk="0-0-0-0-0-0-0-0-0" ><li>[x] Main task<ul data-hk="0-0-0-0-0-0-0-0-1-0-0-0-0-0-1-0-0-0-0-0-0" ><li>[x] Subtask 1</li><li>[ ] Subtask 2<ul data-hk="0-0-0-0-0-0-0-0-1-0-0-0-0-0-1-0-0-0-0-0-1-0-1-0-0-0-1-0-0-0-0-0-0" ><li>[x] Sub-subtask</li></ul></li></ul></li></ul>',
     );
   });
   it("handles large documents efficiently", () => {
@@ -603,7 +619,7 @@ describe("Markdown", () => {
       />
     ));
     expect(asFragment()).toRenderEqual(
-      "<h2 >Section 1</h2><p>This is paragraph 1 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 2</h2><p>This is paragraph 2 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 3</h2><p>This is paragraph 3 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 4</h2><p>This is paragraph 4 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 5</h2><p>This is paragraph 5 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 6</h2><p>This is paragraph 6 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 7</h2><p>This is paragraph 7 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 8</h2><p>This is paragraph 8 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 9</h2><p>This is paragraph 9 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 10</h2><p>This is paragraph 10 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 11</h2><p>This is paragraph 11 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 12</h2><p>This is paragraph 12 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 13</h2><p>This is paragraph 13 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 14</h2><p>This is paragraph 14 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 15</h2><p>This is paragraph 15 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 16</h2><p>This is paragraph 16 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 17</h2><p>This is paragraph 17 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 18</h2><p>This is paragraph 18 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 19</h2><p>This is paragraph 19 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 20</h2><p>This is paragraph 20 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 21</h2><p>This is paragraph 21 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 22</h2><p>This is paragraph 22 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 23</h2><p>This is paragraph 23 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 24</h2><p>This is paragraph 24 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 25</h2><p>This is paragraph 25 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 26</h2><p>This is paragraph 26 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 27</h2><p>This is paragraph 27 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 28</h2><p>This is paragraph 28 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 29</h2><p>This is paragraph 29 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 30</h2><p>This is paragraph 30 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 31</h2><p>This is paragraph 31 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 32</h2><p>This is paragraph 32 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 33</h2><p>This is paragraph 33 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 34</h2><p>This is paragraph 34 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 35</h2><p>This is paragraph 35 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 36</h2><p>This is paragraph 36 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 37</h2><p>This is paragraph 37 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 38</h2><p>This is paragraph 38 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 39</h2><p>This is paragraph 39 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 40</h2><p>This is paragraph 40 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 41</h2><p>This is paragraph 41 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 42</h2><p>This is paragraph 42 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 43</h2><p>This is paragraph 43 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 44</h2><p>This is paragraph 44 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 45</h2><p>This is paragraph 45 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 46</h2><p>This is paragraph 46 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 47</h2><p>This is paragraph 47 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 48</h2><p>This is paragraph 48 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 49</h2><p>This is paragraph 49 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 50</h2><p>This is paragraph 50 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 51</h2><p>This is paragraph 51 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 52</h2><p>This is paragraph 52 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 53</h2><p>This is paragraph 53 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 54</h2><p>This is paragraph 54 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 55</h2><p>This is paragraph 55 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 56</h2><p>This is paragraph 56 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 57</h2><p>This is paragraph 57 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 58</h2><p>This is paragraph 58 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 59</h2><p>This is paragraph 59 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 60</h2><p>This is paragraph 60 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 61</h2><p>This is paragraph 61 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 62</h2><p>This is paragraph 62 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 63</h2><p>This is paragraph 63 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 64</h2><p>This is paragraph 64 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 65</h2><p>This is paragraph 65 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 66</h2><p>This is paragraph 66 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 67</h2><p>This is paragraph 67 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 68</h2><p>This is paragraph 68 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 69</h2><p>This is paragraph 69 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 70</h2><p>This is paragraph 70 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 71</h2><p>This is paragraph 71 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 72</h2><p>This is paragraph 72 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 73</h2><p>This is paragraph 73 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 74</h2><p>This is paragraph 74 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 75</h2><p>This is paragraph 75 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 76</h2><p>This is paragraph 76 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 77</h2><p>This is paragraph 77 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 78</h2><p>This is paragraph 78 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 79</h2><p>This is paragraph 79 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 80</h2><p>This is paragraph 80 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 81</h2><p>This is paragraph 81 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 82</h2><p>This is paragraph 82 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 83</h2><p>This is paragraph 83 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 84</h2><p>This is paragraph 84 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 85</h2><p>This is paragraph 85 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 86</h2><p>This is paragraph 86 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 87</h2><p>This is paragraph 87 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 88</h2><p>This is paragraph 88 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 89</h2><p>This is paragraph 89 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 90</h2><p>This is paragraph 90 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 91</h2><p>This is paragraph 91 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 92</h2><p>This is paragraph 92 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 93</h2><p>This is paragraph 93 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 94</h2><p>This is paragraph 94 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 95</h2><p>This is paragraph 95 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 96</h2><p>This is paragraph 96 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 97</h2><p>This is paragraph 97 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 98</h2><p>This is paragraph 98 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 99</h2><p>This is paragraph 99 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 >Section 100</h2><p>This is paragraph 100 with <strong>bold</strong> and <em>italic</em> text.</p><ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul>",
+      '<h2 data-hk="0-0-0-0-0-0-0-0-0" >Section 1</h2><p>This is paragraph 1 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-2-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-3-0-0-0-0-0" >Section 2</h2><p>This is paragraph 2 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-5-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-6-0-0-0-0-0" >Section 3</h2><p>This is paragraph 3 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-8-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-9-0-0-0-0-0" >Section 4</h2><p>This is paragraph 4 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-11-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-12-0-0-0-0-0" >Section 5</h2><p>This is paragraph 5 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-14-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-15-0-0-0-0-0" >Section 6</h2><p>This is paragraph 6 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-17-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-18-0-0-0-0-0" >Section 7</h2><p>This is paragraph 7 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-20-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-21-0-0-0-0-0" >Section 8</h2><p>This is paragraph 8 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-23-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-24-0-0-0-0-0" >Section 9</h2><p>This is paragraph 9 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-26-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-27-0-0-0-0-0" >Section 10</h2><p>This is paragraph 10 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-29-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-30-0-0-0-0-0" >Section 11</h2><p>This is paragraph 11 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-32-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-33-0-0-0-0-0" >Section 12</h2><p>This is paragraph 12 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-35-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-36-0-0-0-0-0" >Section 13</h2><p>This is paragraph 13 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-38-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-39-0-0-0-0-0" >Section 14</h2><p>This is paragraph 14 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-41-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-42-0-0-0-0-0" >Section 15</h2><p>This is paragraph 15 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-44-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-45-0-0-0-0-0" >Section 16</h2><p>This is paragraph 16 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-47-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-48-0-0-0-0-0" >Section 17</h2><p>This is paragraph 17 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-50-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-51-0-0-0-0-0" >Section 18</h2><p>This is paragraph 18 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-53-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-54-0-0-0-0-0" >Section 19</h2><p>This is paragraph 19 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-56-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-57-0-0-0-0-0" >Section 20</h2><p>This is paragraph 20 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-59-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-60-0-0-0-0-0" >Section 21</h2><p>This is paragraph 21 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-62-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-63-0-0-0-0-0" >Section 22</h2><p>This is paragraph 22 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-65-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-66-0-0-0-0-0" >Section 23</h2><p>This is paragraph 23 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-68-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-69-0-0-0-0-0" >Section 24</h2><p>This is paragraph 24 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-71-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-72-0-0-0-0-0" >Section 25</h2><p>This is paragraph 25 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-74-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-75-0-0-0-0-0" >Section 26</h2><p>This is paragraph 26 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-77-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-78-0-0-0-0-0" >Section 27</h2><p>This is paragraph 27 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-80-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-81-0-0-0-0-0" >Section 28</h2><p>This is paragraph 28 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-83-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-84-0-0-0-0-0" >Section 29</h2><p>This is paragraph 29 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-86-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-87-0-0-0-0-0" >Section 30</h2><p>This is paragraph 30 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-89-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-90-0-0-0-0-0" >Section 31</h2><p>This is paragraph 31 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-92-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-93-0-0-0-0-0" >Section 32</h2><p>This is paragraph 32 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-95-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-96-0-0-0-0-0" >Section 33</h2><p>This is paragraph 33 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-98-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-99-0-0-0-0-0" >Section 34</h2><p>This is paragraph 34 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-101-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-102-0-0-0-0-0" >Section 35</h2><p>This is paragraph 35 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-104-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-105-0-0-0-0-0" >Section 36</h2><p>This is paragraph 36 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-107-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-108-0-0-0-0-0" >Section 37</h2><p>This is paragraph 37 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-110-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-111-0-0-0-0-0" >Section 38</h2><p>This is paragraph 38 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-113-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-114-0-0-0-0-0" >Section 39</h2><p>This is paragraph 39 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-116-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-117-0-0-0-0-0" >Section 40</h2><p>This is paragraph 40 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-119-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-120-0-0-0-0-0" >Section 41</h2><p>This is paragraph 41 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-122-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-123-0-0-0-0-0" >Section 42</h2><p>This is paragraph 42 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-125-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-126-0-0-0-0-0" >Section 43</h2><p>This is paragraph 43 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-128-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-129-0-0-0-0-0" >Section 44</h2><p>This is paragraph 44 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-131-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-132-0-0-0-0-0" >Section 45</h2><p>This is paragraph 45 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-134-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-135-0-0-0-0-0" >Section 46</h2><p>This is paragraph 46 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-137-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-138-0-0-0-0-0" >Section 47</h2><p>This is paragraph 47 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-140-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-141-0-0-0-0-0" >Section 48</h2><p>This is paragraph 48 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-143-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-144-0-0-0-0-0" >Section 49</h2><p>This is paragraph 49 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-146-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-147-0-0-0-0-0" >Section 50</h2><p>This is paragraph 50 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-149-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-150-0-0-0-0-0" >Section 51</h2><p>This is paragraph 51 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-152-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-153-0-0-0-0-0" >Section 52</h2><p>This is paragraph 52 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-155-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-156-0-0-0-0-0" >Section 53</h2><p>This is paragraph 53 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-158-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-159-0-0-0-0-0" >Section 54</h2><p>This is paragraph 54 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-161-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-162-0-0-0-0-0" >Section 55</h2><p>This is paragraph 55 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-164-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-165-0-0-0-0-0" >Section 56</h2><p>This is paragraph 56 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-167-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-168-0-0-0-0-0" >Section 57</h2><p>This is paragraph 57 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-170-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-171-0-0-0-0-0" >Section 58</h2><p>This is paragraph 58 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-173-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-174-0-0-0-0-0" >Section 59</h2><p>This is paragraph 59 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-176-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-177-0-0-0-0-0" >Section 60</h2><p>This is paragraph 60 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-179-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-180-0-0-0-0-0" >Section 61</h2><p>This is paragraph 61 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-182-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-183-0-0-0-0-0" >Section 62</h2><p>This is paragraph 62 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-185-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-186-0-0-0-0-0" >Section 63</h2><p>This is paragraph 63 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-188-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-189-0-0-0-0-0" >Section 64</h2><p>This is paragraph 64 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-191-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-192-0-0-0-0-0" >Section 65</h2><p>This is paragraph 65 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-194-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-195-0-0-0-0-0" >Section 66</h2><p>This is paragraph 66 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-197-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-198-0-0-0-0-0" >Section 67</h2><p>This is paragraph 67 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-200-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-201-0-0-0-0-0" >Section 68</h2><p>This is paragraph 68 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-203-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-204-0-0-0-0-0" >Section 69</h2><p>This is paragraph 69 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-206-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-207-0-0-0-0-0" >Section 70</h2><p>This is paragraph 70 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-209-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-210-0-0-0-0-0" >Section 71</h2><p>This is paragraph 71 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-212-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-213-0-0-0-0-0" >Section 72</h2><p>This is paragraph 72 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-215-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-216-0-0-0-0-0" >Section 73</h2><p>This is paragraph 73 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-218-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-219-0-0-0-0-0" >Section 74</h2><p>This is paragraph 74 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-221-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-222-0-0-0-0-0" >Section 75</h2><p>This is paragraph 75 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-224-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-225-0-0-0-0-0" >Section 76</h2><p>This is paragraph 76 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-227-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-228-0-0-0-0-0" >Section 77</h2><p>This is paragraph 77 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-230-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-231-0-0-0-0-0" >Section 78</h2><p>This is paragraph 78 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-233-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-234-0-0-0-0-0" >Section 79</h2><p>This is paragraph 79 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-236-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-237-0-0-0-0-0" >Section 80</h2><p>This is paragraph 80 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-239-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-240-0-0-0-0-0" >Section 81</h2><p>This is paragraph 81 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-242-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-243-0-0-0-0-0" >Section 82</h2><p>This is paragraph 82 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-245-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-246-0-0-0-0-0" >Section 83</h2><p>This is paragraph 83 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-248-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-249-0-0-0-0-0" >Section 84</h2><p>This is paragraph 84 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-251-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-252-0-0-0-0-0" >Section 85</h2><p>This is paragraph 85 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-254-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-255-0-0-0-0-0" >Section 86</h2><p>This is paragraph 86 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-257-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-258-0-0-0-0-0" >Section 87</h2><p>This is paragraph 87 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-260-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-261-0-0-0-0-0" >Section 88</h2><p>This is paragraph 88 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-263-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-264-0-0-0-0-0" >Section 89</h2><p>This is paragraph 89 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-266-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-267-0-0-0-0-0" >Section 90</h2><p>This is paragraph 90 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-269-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-270-0-0-0-0-0" >Section 91</h2><p>This is paragraph 91 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-272-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-273-0-0-0-0-0" >Section 92</h2><p>This is paragraph 92 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-275-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-276-0-0-0-0-0" >Section 93</h2><p>This is paragraph 93 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-278-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-279-0-0-0-0-0" >Section 94</h2><p>This is paragraph 94 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-281-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-282-0-0-0-0-0" >Section 95</h2><p>This is paragraph 95 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-284-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-285-0-0-0-0-0" >Section 96</h2><p>This is paragraph 96 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-287-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-288-0-0-0-0-0" >Section 97</h2><p>This is paragraph 97 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-290-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-291-0-0-0-0-0" >Section 98</h2><p>This is paragraph 98 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-293-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-294-0-0-0-0-0" >Section 99</h2><p>This is paragraph 99 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-296-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h2 data-hk="0-0-0-297-0-0-0-0-0" >Section 100</h2><p>This is paragraph 100 with <strong>bold</strong> and <em>italic</em> text.</p><ul data-hk="0-0-0-299-0-0-0-0-0" ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul>',
     );
   });
   it("allows custom paragraph renderer", () => {
@@ -614,7 +630,9 @@ describe("Markdown", () => {
   });
   it("falls back to default renderer when custom not provided", () => {
     const { asFragment } = render(() => <Markdown markdown={"# Header"} />);
-    expect(asFragment()).toRenderEqual("<h1 >Header</h1>");
+    expect(asFragment()).toRenderEqual(
+      '<h1 data-hk="0-0-0-0-0-0-0-0-0" >Header</h1>',
+    );
   });
   it("allows custom emphasis renderer", () => {
     const { asFragment } = render(() => (
@@ -651,7 +669,7 @@ describe("Markdown", () => {
       />
     ));
     expect(asFragment()).toRenderEqual(
-      '<table><thead><tr><th >Name</th><th >Description</th><th >Link</th></tr></thead><tbody><tr><td ><strong>Bold Name</strong></td><td ><em>Italic description</em></td><td ><a href="https://example.com" target="_blank" rel="noopener noreferrer">Visit</a></td></tr><tr><td ><del>Deprecated</del></td><td ><code>code example</code></td><td ><a href="https://github.com" target="_blank" rel="noopener noreferrer">GitHub</a></td></tr></tbody></table>',
+      '<table><thead><tr><th data-hk="0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0" >Name</th><th data-hk="0-0-0-0-0-0-0-0-0-0-0-0-0-0-1-0-0-0-0-0" >Description</th><th data-hk="0-0-0-0-0-0-0-0-0-0-0-0-0-0-2-0-0-0-0-0" >Link</th></tr></thead><tbody><tr><td data-hk="0-0-0-0-0-0-0-1-0-0-0-0-0-0-0-0-0-0-0-0-0" ><strong>Bold Name</strong></td><td data-hk="0-0-0-0-0-0-0-1-0-0-0-0-0-0-0-1-0-0-0-0-0" ><em>Italic description</em></td><td data-hk="0-0-0-0-0-0-0-1-0-0-0-0-0-0-0-2-0-0-0-0-0" ><a href="https://example.com" target="_blank" rel="noopener noreferrer">Visit</a></td></tr><tr><td data-hk="0-0-0-0-0-0-0-1-0-1-0-0-0-0-0-0-0-0-0-0-0" ><del>Deprecated</del></td><td data-hk="0-0-0-0-0-0-0-1-0-1-0-0-0-0-0-1-0-0-0-0-0" ><code>code example</code></td><td data-hk="0-0-0-0-0-0-0-1-0-1-0-0-0-0-0-2-0-0-0-0-0" ><a href="https://github.com" target="_blank" rel="noopener noreferrer">GitHub</a></td></tr></tbody></table>',
     );
   });
   it("renders tables with images", () => {
@@ -665,7 +683,7 @@ describe("Markdown", () => {
       />
     ));
     expect(asFragment()).toRenderEqual(
-      '<table><thead><tr><th >Icon</th><th >Name</th><th >Description</th></tr></thead><tbody><tr><td ><img src="icon.png" alt="Icon"></td><td >Project</td><td >Main project</td></tr><tr><td ><img src="logo.svg" alt="Logo"></td><td >Brand</td><td >Company brand</td></tr></tbody></table>',
+      '<table><thead><tr><th data-hk="0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0" >Icon</th><th data-hk="0-0-0-0-0-0-0-0-0-0-0-0-0-0-1-0-0-0-0-0" >Name</th><th data-hk="0-0-0-0-0-0-0-0-0-0-0-0-0-0-2-0-0-0-0-0" >Description</th></tr></thead><tbody><tr><td data-hk="0-0-0-0-0-0-0-1-0-0-0-0-0-0-0-0-0-0-0-0-0" ><img src="icon.png" alt="Icon"></td><td data-hk="0-0-0-0-0-0-0-1-0-0-0-0-0-0-0-1-0-0-0-0-0" >Project</td><td data-hk="0-0-0-0-0-0-0-1-0-0-0-0-0-0-0-2-0-0-0-0-0" >Main project</td></tr><tr><td data-hk="0-0-0-0-0-0-0-1-0-1-0-0-0-0-0-0-0-0-0-0-0" ><img src="logo.svg" alt="Logo"></td><td data-hk="0-0-0-0-0-0-0-1-0-1-0-0-0-0-0-1-0-0-0-0-0" >Brand</td><td data-hk="0-0-0-0-0-0-0-1-0-1-0-0-0-0-0-2-0-0-0-0-0" >Company brand</td></tr></tbody></table>',
     );
   });
   it("handles empty table cells", () => {
@@ -679,7 +697,7 @@ describe("Markdown", () => {
       />
     ));
     expect(asFragment()).toRenderEqual(
-      "<table><thead><tr><th >Col1</th><th >Col2</th><th >Col3</th></tr></thead><tbody><tr><td >Data</td><td ></td><td >More</td></tr><tr><td ></td><td >Data</td><td ></td></tr></tbody></table>",
+      '<table><thead><tr><th data-hk="0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0" >Col1</th><th data-hk="0-0-0-0-0-0-0-0-0-0-0-0-0-0-1-0-0-0-0-0" >Col2</th><th data-hk="0-0-0-0-0-0-0-0-0-0-0-0-0-0-2-0-0-0-0-0" >Col3</th></tr></thead><tbody><tr><td data-hk="0-0-0-0-0-0-0-1-0-0-0-0-0-0-0-0-0-0-0-0-0" >Data</td><td data-hk="0-0-0-0-0-0-0-1-0-0-0-0-0-0-0-1-0-0-0-0-0" ></td><td data-hk="0-0-0-0-0-0-0-1-0-0-0-0-0-0-0-2-0-0-0-0-0" >More</td></tr><tr><td data-hk="0-0-0-0-0-0-0-1-0-1-0-0-0-0-0-0-0-0-0-0-0" ></td><td data-hk="0-0-0-0-0-0-0-1-0-1-0-0-0-0-0-1-0-0-0-0-0" >Data</td><td data-hk="0-0-0-0-0-0-0-1-0-1-0-0-0-0-0-2-0-0-0-0-0" ></td></tr></tbody></table>',
     );
   });
   it("renders simple table", () => {
@@ -693,7 +711,7 @@ describe("Markdown", () => {
       />
     ));
     expect(asFragment()).toRenderEqual(
-      "<table><thead><tr><th >Name</th><th >Age</th></tr></thead><tbody><tr><td >John</td><td >30</td></tr><tr><td >Jane</td><td >25</td></tr></tbody></table>",
+      '<table><thead><tr><th data-hk="0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0" >Name</th><th data-hk="0-0-0-0-0-0-0-0-0-0-0-0-0-0-1-0-0-0-0-0" >Age</th></tr></thead><tbody><tr><td data-hk="0-0-0-0-0-0-0-1-0-0-0-0-0-0-0-0-0-0-0-0-0" >John</td><td data-hk="0-0-0-0-0-0-0-1-0-0-0-0-0-0-0-1-0-0-0-0-0" >30</td></tr><tr><td data-hk="0-0-0-0-0-0-0-1-0-1-0-0-0-0-0-0-0-0-0-0-0" >Jane</td><td data-hk="0-0-0-0-0-0-0-1-0-1-0-0-0-0-0-1-0-0-0-0-0" >25</td></tr></tbody></table>',
     );
   });
   it("renders table with alignment", () => {
@@ -707,7 +725,7 @@ describe("Markdown", () => {
       />
     ));
     expect(asFragment()).toRenderEqual(
-      "<table><thead><tr><th >Left</th><th >Center</th><th >Right</th></tr></thead><tbody><tr><td >L1</td><td >C1</td><td >R1</td></tr></tbody></table>",
+      '<table><thead><tr><th data-hk="0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0" >Left</th><th data-hk="0-0-0-0-0-0-0-0-0-0-0-0-0-0-1-0-0-0-0-0" >Center</th><th data-hk="0-0-0-0-0-0-0-0-0-0-0-0-0-0-2-0-0-0-0-0" >Right</th></tr></thead><tbody><tr><td data-hk="0-0-0-0-0-0-0-1-0-0-0-0-0-0-0-0-0-0-0-0-0" >L1</td><td data-hk="0-0-0-0-0-0-0-1-0-0-0-0-0-0-0-1-0-0-0-0-0" >C1</td><td data-hk="0-0-0-0-0-0-0-1-0-0-0-0-0-0-0-2-0-0-0-0-0" >R1</td></tr></tbody></table>',
     );
   });
   it("renders standalone table correctly", () => {
@@ -721,7 +739,7 @@ describe("Markdown", () => {
       />
     ));
     expect(asFragment()).toRenderEqual(
-      "<table><thead><tr><th >Name</th><th >Age</th></tr></thead><tbody><tr><td >John</td><td >30</td></tr><tr><td >Jane</td><td >25</td></tr></tbody></table>",
+      '<table><thead><tr><th data-hk="0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0" >Name</th><th data-hk="0-0-0-0-0-0-0-0-0-0-0-0-0-0-1-0-0-0-0-0" >Age</th></tr></thead><tbody><tr><td data-hk="0-0-0-0-0-0-0-1-0-0-0-0-0-0-0-0-0-0-0-0-0" >John</td><td data-hk="0-0-0-0-0-0-0-1-0-0-0-0-0-0-0-1-0-0-0-0-0" >30</td></tr><tr><td data-hk="0-0-0-0-0-0-0-1-0-1-0-0-0-0-0-0-0-0-0-0-0" >Jane</td><td data-hk="0-0-0-0-0-0-0-1-0-1-0-0-0-0-0-1-0-0-0-0-0" >25</td></tr></tbody></table>',
     );
   });
   it("renders strikethrough text", () => {

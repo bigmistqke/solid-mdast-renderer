@@ -60,10 +60,10 @@ export function compareNodes(received: Node, expected: Node, path: string = '') 
     // Get and sort attributes for consistent comparison.
     const receivedAttributes = Array.from(received.attributes).sort((a, b) =>
       a.name.localeCompare(b.name),
-    )
+    ).filter(a => a.name !== "data-hk")
     const expectedAttributes = Array.from(expected.attributes).sort((a, b) =>
       a.name.localeCompare(b.name),
-    )
+    ).filter(a => a.name !== "data-hk")
 
     if (receivedAttributes.length !== expectedAttributes.length) {
       throw new Error(
