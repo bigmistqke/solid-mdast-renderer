@@ -25,15 +25,12 @@ A SolidJS component for rendering Markdown via [mdast](https://github.com/syntax
 ### Extended Features (with GFM extensions)
 - **Tables** - pipe-based table syntax with header/body separation
 - **Strikethrough** - `~~deleted text~~` syntax
-- **Task lists** - checkbox syntax (rendered as plain text)
 
 ### Advanced Features
 - **Custom Renderers** - Override any node type with custom components
 - **Extension Support** - Compatible with micromark extensions
-- **mdast Extensions** - Support for mdast-util extensions
+- **Mdast Extensions** - Support for mdast-util extensions
 - **Context API** - Access to node stack and markdown props in custom renderers
-- **Performance** - Efficient rendering of large documents
-- **Type Safety** - Full TypeScript support with proper typing
 
 ## Installation
 
@@ -137,30 +134,6 @@ const markdown = `
 />
 ```
 
-## Available Node Types
-
-The following node types can be customized via the `renderers` prop:
-
-- `blockquote` - Block quotes
-- `break` - Hard line breaks
-- `code` - Code blocks
-- `delete` - Strikethrough text (requires GFM)
-- `emphasis` - Italic text
-- `heading` - Headers (h1-h6)
-- `html` - Raw HTML
-- `image` - Images
-- `inlineCode` - Inline code
-- `link` - Hyperlinks
-- `list` - Ordered/unordered lists
-- `listItem` - List items
-- `paragraph` - Paragraphs
-- `strong` - Bold text
-- `table` - Tables (requires GFM)
-- `tableCell` - Table cells
-- `tableRow` - Table rows
-- `text` - Plain text
-- `thematicBreak` - Horizontal rules
-
 ## Context Hooks
 
 Custom renderers can access context information:
@@ -176,20 +149,6 @@ const CustomRenderer = (props) => {
   const markdownProps = useMarkdownRendererProps();
   
   return <div>{/* your custom rendering */}</div>;
-};
-```
-
-## TypeScript Support
-
-The library is fully typed with TypeScript. Node types are properly typed based on mdast specifications:
-
-```tsx
-import type { Component } from 'solid-js';
-import type { Paragraph } from 'mdast';
-
-const customParagraph: Component<{ node: Paragraph }> = (props) => {
-  // props.node is fully typed as Paragraph
-  return <p>{/* render children */}</p>;
 };
 ```
 
