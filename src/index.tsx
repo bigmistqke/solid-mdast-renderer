@@ -14,40 +14,52 @@ import {
 import { Dynamic } from 'solid-js/web'
 import { createDebug } from './utils'
 
-gfm.gfmToMarkdown
-
 const debug = createDebug('MdastRenderer', false)
+
+interface MarkdownProps<TMap = RootContentMap> {
+  markdown: string
+  renderers?: Partial<{
+    [TKey in keyof TMap]: Component<{
+      node: TMap[TKey]
+    }>
+  }>
+  extensions?: Array<Extension>
+  mdastExtensions?: Array<MdastExtension | Array<MdastExtension>>
+}
+
+/**********************************************************************************/
+/*                                                                                */
+/*                                    Contexts                                    */
+/*                                                                                */
+/**********************************************************************************/
 
 // Use parser with table and strikethrough support
 const MarkdownPropsContext = createContext<MarkdownProps>()
 const NodeStackContext = createContext<Array<Node>>([])
 const TableCellContext = createContext<'head' | 'body'>()
 
-function useNodeStack() {
+/**
+ * Hook to access the current node stack in a custom renderer.
+ * Returns an array with the current node as first element and parent nodes following.
+ * @returns {[Node, ...Array<Node>]} The node stack with current node first
+ */
+export function useNodeStack() {
   return useContext(NodeStackContext) as [Node, ...Array<Node>]
 }
 
-function useMarkdownRendererProps() {
+/**
+ * Hook to access the markdown renderer props including custom renderers and extensions.
+ * Must be used within a Markdown component or custom renderer.
+ * @template T - The type map for custom renderers
+ * @returns {MarkdownProps<T>} The markdown props
+ * @throws {Error} If used outside of a Markdown component
+ */
+export function useMarkdownRendererProps<T = RootContentMap>() {
   const context = useContext(MarkdownPropsContext)
   if (!context) {
     throw new Error('Use useMarkdownProps in a descendant of MdastRenderer')
   }
-  return context
-}
-
-interface MarkdownProps {
-  markdown: string
-  renderers?: Partial<typeof DefaultNodeRenderers>
-  extensions?: Array<Extension>
-  mdastExtensions?: Array<MdastExtension | Array<MdastExtension>>
-}
-
-export interface MDNode {
-  type: string
-  from: number
-  to: number
-  children: MDNode[]
-  content: string
+  return context as MarkdownProps<T>
 }
 
 /**********************************************************************************/
@@ -56,23 +68,24 @@ export interface MDNode {
 /*                                                                                */
 /**********************************************************************************/
 
-const NOT_IMPLEMENTED_YET = (props: { node: Node }) => {
+const NOT_IMPLEMENTED_YET = (props: { node: Node }): null => {
   throw new Error(`Did not implement node type yet: ${props.node.type}`)
-  return null!
 }
 
+/**
+ * Default renderers for all mdast node types.
+ * These can be overridden by providing custom renderers via the Markdown component's renderers prop.
+ */
 export const DefaultNodeRenderers: {
   [TKey in keyof RootContentMap]: Component<{
-    node: TKey extends keyof RootContentMap ? RootContentMap[TKey] : unknown
+    node: RootContentMap[TKey]
   }>
 } = {
-  // [link]: url "title" (link reference definition)
-  linkReference: NOT_IMPLEMENTED_YET,
   definition: NOT_IMPLEMENTED_YET,
-
   footnoteDefinition: NOT_IMPLEMENTED_YET,
   footnoteReference: NOT_IMPLEMENTED_YET,
   imageReference: NOT_IMPLEMENTED_YET,
+  linkReference: NOT_IMPLEMENTED_YET,
   yaml: NOT_IMPLEMENTED_YET,
 
   // > blockquote
@@ -196,23 +209,6 @@ export const DefaultNodeRenderers: {
     return <>{props.node.value}</>
   },
 
-  tableRow(props) {
-    return (
-      <tr>
-        <Slot.Children node={props.node} />
-      </tr>
-    )
-  },
-
-  tableCell(props) {
-    const context = useContext(TableCellContext)
-    return (
-      <Dynamic component={context === 'head' ? 'th' : 'td'}>
-        <Slot.Children node={props.node} />
-      </Dynamic>
-    )
-  },
-
   // | col1 | col2 | table syntax
   table(props) {
     return (
@@ -231,12 +227,39 @@ export const DefaultNodeRenderers: {
     )
   },
 
+  tableCell(props) {
+    const context = useContext(TableCellContext)
+    return (
+      <Dynamic component={context === 'head' ? 'th' : 'td'}>
+        <Slot.Children node={props.node} />
+      </Dynamic>
+    )
+  },
+
+  tableRow(props) {
+    return (
+      <tr>
+        <Slot.Children node={props.node} />
+      </tr>
+    )
+  },
+
   thematicBreak() {
     return <hr />
   },
 }
 
+/**
+ * Utility components for rendering markdown nodes and their children.
+ * Used internally by default renderers and can be used in custom renderers.
+ */
 export const Slot = {
+  /**
+   * Renders all children of a node.
+   * Handles nodes that may not have children gracefully.
+   * @param {Object} props - Component props
+   * @param {Node} props.node - The parent node whose children should be rendered
+   */
   Children(props: { node: Node }) {
     return (
       <For
@@ -249,6 +272,13 @@ export const Slot = {
     )
   },
 
+  /**
+   * Renders a single mdast node using the appropriate renderer.
+   * Looks up custom renderers first, falls back to default renderers.
+   * @param {Object} props - Component props
+   * @param {Node} props.node - The mdast node to render
+   * @throws {Error} If no renderer is found for the node type
+   */
   Node(props: { node: Node }): any {
     const mdastRendererProps = useMarkdownRendererProps()
     debug('DefaultNode processing:', props.node)
@@ -273,7 +303,26 @@ export const Slot = {
   },
 }
 
-export function Markdown(props: MarkdownProps) {
+/**
+ * Main component for rendering markdown content.
+ * Converts markdown string to mdast and renders it using custom or default renderers.
+ * @template T - The type map for custom renderers
+ * @param {MarkdownProps<T>} props - Component props
+ * @param {string} props.markdown - The markdown string to render
+ * @param {Partial<{[TKey in keyof T]: Component<{node: T[TKey]}>}>} [props.renderers] - Custom renderers for node types
+ * @param {Array<Extension>} [props.extensions] - Micromark extensions (e.g., for GFM support)
+ * @param {Array<MdastExtension | Array<MdastExtension>>} [props.mdastExtensions] - mdast extensions
+ * @example
+ * ```tsx
+ * <Markdown 
+ *   markdown="# Hello World" 
+ *   renderers={{ heading: CustomHeading }}
+ *   extensions={[gfm()]}
+ *   mdastExtensions={[gfmFromMarkdown()]}
+ * />
+ * ```
+ */
+export function Markdown<T = RootContentMap>(props: MarkdownProps<T>) {
   const root = createMemo(() =>
     fromMarkdown(props.markdown, {
       extensions: props.extensions,
