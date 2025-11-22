@@ -36,7 +36,7 @@ function useMdastRendererProps() {
 }
 
 interface MdastRendererProps {
-  content: string
+  markdown: string
   renderers?: Partial<typeof DefaultNodeRenderers>
   extensions?: Array<Extension>
   mdastExtensions?: Array<MdastExtension | Array<MdastExtension>>
@@ -273,7 +273,7 @@ function DefaultNode(props: { node: Node }): any {
 
 export function MdastRenderer(props: MdastRendererProps) {
   const root = createMemo(() =>
-    fromMarkdown(props.content, {
+    fromMarkdown(props.markdown, {
       extensions: props.extensions,
       mdastExtensions: props.mdastExtensions,
     }),

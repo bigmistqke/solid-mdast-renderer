@@ -23,7 +23,7 @@ const serializedSpec = Object.fromEntries(
     }
 
     const output = renderToString(() =>
-      NoHydration({ get children() { return MdastRenderer({ content: testCase.input, extensions: testCase.extensions?.map(key => extensions[key]()), mdastExtensions: testCase.mdastExtensions?.map(key => mdastExtensions[key]()) }) } }),
+      NoHydration({ get children() { return MdastRenderer({ markdown: testCase.input, extensions: testCase.extensions?.map(key => extensions[key]()), mdastExtensions: testCase.mdastExtensions?.map(key => mdastExtensions[key]()) }) } }),
     ).replaceAll('<!--!$-->', '')
 
     return [

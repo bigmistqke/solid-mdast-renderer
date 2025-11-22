@@ -4,6 +4,7 @@ import { writeFileSync } from 'fs'
 import { dirname, join } from 'path'
 import { fileURLToPath } from 'url'
 import snapshots from '../index.ts'
+import * as prettier from 'prettier'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -28,7 +29,7 @@ describe('MdastRenderer', () => {`,
     ...Object.entries(snapshots).map(
       ([title, { input: markdown, output: html, extensions, mdastExtensions }]) => `      it('${title}', () => {
     const { asFragment } = render(() => <MdastRenderer 
-      content={${JSON.stringify(markdown)} }
+      markdown={${JSON.stringify(markdown)} }
       ${extensions ? `extensions={[${extensions.map(key => `extensions["${key}"]()`).join(', ')}]}` : ''}
       ${mdastExtensions ? `mdastExtensions={[${mdastExtensions.map(key => `mdastExtensions["${key}"]()`).join(', ')}]}` : ''}
     />)
@@ -40,7 +41,7 @@ describe('MdastRenderer', () => {`,
 }
 
 // Generate and write the test file
-const testFileContent = generateTestFile()
+const testFileContent = await prettier.format(generateTestFile(), { parser: 'typescript' })
 const outputPath = join(__dirname, '..', '..', 'test', 'index.test.tsx')
 writeFileSync(outputPath, testFileContent)
 
