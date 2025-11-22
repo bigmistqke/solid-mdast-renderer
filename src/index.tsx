@@ -1,7 +1,5 @@
 import type { Node, RootContentMap } from 'mdast'
-import { fromMarkdown, Options, type Extension as MdastExtension } from 'mdast-util-from-markdown'
-import * as gfm from 'mdast-util-gfm'
-import type { Extension } from 'micromark-util-types'
+import { fromMarkdown, Options } from 'mdast-util-from-markdown'
 import {
   createContext,
   createEffect,
