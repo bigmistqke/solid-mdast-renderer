@@ -18,9 +18,9 @@ const generateTestFile = (): string => {
 
 import { describe, it, expect } from 'vitest'
 import { render } from '@solidjs/testing-library'
-import { setup } from "./setup"
-import { MdastRenderer } from '../src/index'
-import { extensions, mdastExtensions } from "../snapshots/extensions"
+import { setup } from "./setup.ts"
+import { MdastRenderer } from '../src/index.ts'
+import { extensions, mdastExtensions } from "../snapshots/extensions.ts"
 
 setup()
 
