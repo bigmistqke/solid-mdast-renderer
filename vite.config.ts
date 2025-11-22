@@ -12,6 +12,9 @@ export default defineConfig({
       },
     }),
   ],
+  server: {
+    port: 3001
+  },
   build: {
     lib: {
       entry: resolve(__dirname, 'src/index.tsx'),
@@ -20,7 +23,13 @@ export default defineConfig({
       formats: ['es'],
     },
     rollupOptions: {
-      external: ['solid-js', 'solid-js/web'],
+      external: [
+        'solid-js', 
+        'solid-js/web',
+        'mdast-util-from-markdown',
+        'mdast-util-gfm-table', 
+        'micromark-extension-gfm-table'
+      ],
       output: {
         globals: {
           'solid-js': 'Solid',

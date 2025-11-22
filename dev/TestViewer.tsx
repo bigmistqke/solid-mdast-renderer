@@ -1,7 +1,7 @@
 import { useSearchParams } from '@solidjs/router'
 import { createMemo, createSelector, createSignal, For, onMount, Show } from 'solid-js'
 import { createStore } from 'solid-js/store'
-import { MDRenderer } from '../src'
+import { MdastRenderer } from '../src'
 import { compareNodes } from '../src/utils'
 import spec from '../test/spec'
 import styles from './TestViewer.module.css'
@@ -37,7 +37,7 @@ function Test(props: TestProps) {
 
       setResult({ success: true })
     } catch (error) {
-      console.error('Error', error)
+      // console.error('Error', error)
       setResult({ success: false, error: error instanceof Error ? error.message : `${error}` })
     }
   })
@@ -60,7 +60,9 @@ function Test(props: TestProps) {
         }}
       >
         <div>
-          <div style={{ 'font-weight': 'bold' }}>{props.title}</div>
+          <h3 class={styles.title}>
+            <a href={`/?t=${props.title}`}>🔗</a> {props.title}
+          </h3>
         </div>
         <div
           style={{
@@ -110,7 +112,7 @@ function Test(props: TestProps) {
           </pre>
         </div>
 
-        {/* B: Actual Result */}
+        {/* B: Actual Result (CSR Rendered) */}
         <div
           style={{
             padding: '16px',
@@ -118,7 +120,7 @@ function Test(props: TestProps) {
             'overflow-x': 'hidden',
           }}
         >
-          <div class={styles.subtitle}>B: Actual Result</div>
+          <div class={styles.subtitle}>B: Actual Result (CSR)</div>
 
           {/* B1: Raw HTML String */}
           <div style={{ 'margin-bottom': '8px' }}>
@@ -143,12 +145,12 @@ function Test(props: TestProps) {
           <div>
             <div class={styles.subtitle}>Rendered:</div>
             <div ref={element!} class={styles.container}>
-              <MDRenderer content={props.input} />
+              <MdastRenderer content={props.input} />
             </div>
           </div>
         </div>
 
-        {/* C: Expected (Snapshot) */}
+        {/* C: Expected (SSR Snapshot) */}
         <div
           style={{
             padding: '16px',
@@ -156,7 +158,7 @@ function Test(props: TestProps) {
             'overflow-x': 'hidden',
           }}
         >
-          <div class={styles.subtitle}>C: Expected (Snapshot)</div>
+          <div class={styles.subtitle}>C: Expected (SSR Snapshot)</div>
 
           {/* C1: Raw HTML String */}
           <div style={{ 'margin-bottom': '8px' }}>

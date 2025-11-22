@@ -5,11 +5,11 @@ import { dirname, join } from 'path'
 import * as prettier from 'prettier'
 import { NoHydration, renderToString } from 'solid-js/web'
 import { fileURLToPath } from 'url'
-import { MDRenderer } from '../dist/index.js'
+import { MdastRenderer } from '../dist/index.js'
 import { createDebug } from '../src/utils.ts'
 import spec from '../test/spec.ts'
 
-const debug = createDebug('MDRenderer/generate-html', true)
+const debug = createDebug('MdastRenderer/generate-html', true)
 
 const specPath = join(dirname(fileURLToPath(import.meta.url)), '..', 'test', 'spec.ts')
 
@@ -22,7 +22,7 @@ const serializedSpec = Object.fromEntries(
     }
 
     const snapshot = renderToString(() =>
-      NoHydration({ children: MDRenderer({ content: testCase.input }) }),
+      NoHydration({ get children() { return MdastRenderer({ content: testCase.input }) } }),
     ).replaceAll('<!--!$-->', '')
 
     return [
