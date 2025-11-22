@@ -1,6 +1,6 @@
 {
   "name": "@bigmistqke/solid-mdast-renderer",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "mdast based markdown renderer with solid for templating",
   "license": "MIT",
   "author": "bigmistqke",
@@ -43,10 +43,12 @@
     "lint": "concurrently pnpm:lint:*",
     "lint:code": "eslint --ignore-path .gitignore --max-warnings 0 src/**/*.{ts,tsx}",
     "lint:types": "tsc --noEmit",
-    "update-deps": "pnpm up -Li"
+    "update-deps": "pnpm up -Li",
+    "bump": "bumpp"
   },
   "dependencies": {
     "@types/mdast": "^4.0.4",
+    "bumpp": "^10.3.1",
     "mdast-util-from-markdown": "^2.0.2",
     "mdast-util-gfm-table": "^2.0.0",
     "micromark-extension-gfm-table": "^2.1.1",
