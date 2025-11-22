@@ -1,6 +1,10 @@
-# solid-lezer-markdown
+<p>
+  <img width="100%" src="https://assets.solidjs.com/banner?type=solid-mdast-renderer&background=tiles&project=%20" alt="solid-mdast-renderer">
+</p>
 
-A SolidJS component for rendering Markdown using mdast (Markdown Abstract Syntax Tree) with extensible support for custom renderers and markdown extensions.
+# @bigmistqke/solid-mdast-renderer
+
+A SolidJS component for rendering Markdown via [mdast](https://github.com/syntax-tree/mdast) and [mdast-util-from-markdown](https://github.com/syntax-tree/mdast-util-from-markdown) with extensible support for custom renderers and markdown extensions.
 
 ## Features
 
@@ -34,13 +38,21 @@ A SolidJS component for rendering Markdown using mdast (Markdown Abstract Syntax
 ## Installation
 
 ```bash
-npm install solid-lezer-markdown
+npm install @bigmistqke/solid-mdast-renderer
+```
+
+```bash
+pnpm add @bigmistqke/solid-mdast-renderer
+```
+
+```bash
+yarn add @bigmistqke/solid-mdast-renderer
 ```
 
 ## Basic Usage
 
 ```tsx
-import { Markdown } from 'solid-lezer-markdown';
+import { Markdown } from '@bigmistqke/solid-mdast-renderer';
 
 function App() {
   const content = `
@@ -64,7 +76,7 @@ This is a **bold** statement with *italic* text.
 You can override the default rendering for any node type:
 
 ```tsx
-import { Markdown, Slot } from 'solid-lezer-markdown';
+import { Markdown, Slot } from '@bigmistqke/solid-mdast-renderer';
 
 const customRenderers = {
   // Custom paragraph renderer
@@ -107,7 +119,7 @@ const customRenderers = {
 Add support for GitHub Flavored Markdown (tables, strikethrough):
 
 ```tsx
-import { Markdown } from 'solid-lezer-markdown';
+import { Markdown } from '@bigmistqke/solid-mdast-renderer';
 import { gfm } from 'micromark-extension-gfm';
 import { gfmFromMarkdown } from 'mdast-util-gfm';
 
@@ -154,7 +166,7 @@ The following node types can be customized via the `renderers` prop:
 Custom renderers can access context information:
 
 ```tsx
-import { useNodeStack, useMarkdownRendererProps } from 'solid-lezer-markdown';
+import { useNodeStack, useMarkdownRendererProps } from '@bigmistqke/solid-mdast-renderer';
 
 const CustomRenderer = (props) => {
   // Get the current node stack (useful for nested contexts)
